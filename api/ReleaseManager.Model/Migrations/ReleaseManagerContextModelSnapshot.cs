@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using ReleaseManager.Models;
+using ReleaseManager.Model;
 
 #nullable disable
 
-namespace api.Migrations
+namespace ReleaseManager.Model.Migrations
 {
     [DbContext(typeof(ReleaseManagerContext))]
     partial class ReleaseManagerContextModelSnapshot : ModelSnapshot
@@ -21,7 +21,7 @@ namespace api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ReleaseManager.Models.Release", b =>
+            modelBuilder.Entity("ReleaseManager.Model.Models.Release", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

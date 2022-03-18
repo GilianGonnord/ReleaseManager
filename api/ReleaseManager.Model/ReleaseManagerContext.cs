@@ -1,6 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using ReleaseManager.Model.Models;
 
-namespace ReleaseManager.Models;
+namespace ReleaseManager.Model;
 
 public class ReleaseManagerContext : DbContext
 {

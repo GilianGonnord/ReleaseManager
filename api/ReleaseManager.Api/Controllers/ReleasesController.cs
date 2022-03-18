@@ -2,9 +2,10 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ReleaseManager.Models;
+using ReleaseManager.Model;
+using ReleaseManager.Model.Models;
 
-namespace api.Controllers
+namespace ReleaseManager.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

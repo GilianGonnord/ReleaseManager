@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace ReleaseManager.Models;
+namespace ReleaseManager.Model.Models;
 
 [Index(nameof(Name), IsUnique = true)]
 public class Release

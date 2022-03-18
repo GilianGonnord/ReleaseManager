@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using ReleaseManager.Models;
+using ReleaseManager.Model;
 
 #nullable disable
 
-namespace api.Migrations
+namespace ReleaseManager.Model.Migrations
 {
     [DbContext(typeof(ReleaseManagerContext))]
-    [Migration("20220315214936_Initial")]
+    [Migration("20220318104812_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ReleaseManager.Models.Release", b =>
+            modelBuilder.Entity("ReleaseManager.Model.Models.Release", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
