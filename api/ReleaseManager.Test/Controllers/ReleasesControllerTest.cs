@@ -177,7 +177,6 @@ public class ReleasesControllerTest
         var result = await controller.DeleteRelease(id);
 
         // Assert
-        Assert.True(false);
         Assert.IsType<NotFoundResult>(result);
         releaseMockRepo.VerifyAll();
     }
