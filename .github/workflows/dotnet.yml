@@ -26,7 +26,7 @@ jobs:
       run: dotnet build --no-restore
       working-directory: ${{env.working-directory}}
     - name: Test
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      run: dotnet test --no-build --verbosity normal /p:Exclude="[ReleaseManager.Model]*" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov 
       working-directory: ${{env.working-directory}}
     - name: Publish coverage report to coveralls.io   
       uses: coverallsapp/github-action@master   
