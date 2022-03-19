@@ -1,9 +1,9 @@
 #nullable disable
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ReleaseManager.Model;
-using ReleaseManager.Model.Models;
+using ReleaseManager.Api.Repositories;
+using ReleaseManager.Api.ViewModels;
 
 namespace ReleaseManager.Api.Controllers
 {
@@ -11,85 +11,83 @@ namespace ReleaseManager.Api.Controllers
     [ApiController]
     public class ReleasesController : ControllerBase
     {
-        private readonly ReleaseManagerContext _context;
+        private readonly IReleaseRepository _releaseRepostitory;
 
-        public ReleasesController(ReleaseManagerContext context)
+        public ReleasesController(IReleaseRepository releaseRepostitory)
         {
-            _context = context;
+            _releaseRepostitory = releaseRepostitory;
         }
 
         // GET: api/Releases
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Release>>> GetReleases()
+        [ProducesResponseType(typeof(IEnumerable<ReleaseViewModel>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ReleaseViewModel>>> GetReleases()
         {
-            return await _context.Releases.ToListAsync();
+            var releases = await _releaseRepostitory.GetAllAsync();
+
+            var releaseVms = releases.Select(ReleaseViewModel.FromModel);
+
+            return Ok(releaseVms);
         }
 
         // GET: api/Releases/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Release>> GetRelease(int id)
+        [ProducesResponseType(typeof(ReleaseViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ReleaseViewModel>> GetRelease(int id)
         {
-            var release = await _context.Releases.FindAsync(id);
+            var release = await _releaseRepostitory.FindAsync(id);
 
-            if (release == null)
+            if (release.Failure)
                 return NotFound();
 
-            return release;
+            var releaseVm = ReleaseViewModel.FromModel(release.Item);
+
+            return Ok(releaseVm);
         }
 
         // PUT: api/Releases/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRelease(int id, Release release)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PutRelease(int id, ReleaseViewModel releaseVm)
         {
-            if (id != release.Id)
+            if (id != releaseVm.Id)
                 return BadRequest();
 
-            _context.Entry(release).State = EntityState.Modified;
+            var release = releaseVm.ToModel();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReleaseExists(id))
-                    return NotFound();
+            var result = await _releaseRepostitory.Update(id, release);
 
-                throw;
-            }
+            if (result.IsError(CommonErrors.NotFound))
+                return NotFound();
 
             return NoContent();
         }
 
         // POST: api/Releases
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Release>> PostRelease(Release release)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<ReleaseViewModel>> PostRelease(ReleaseViewModel releaseVm)
         {
-            _context.Releases.Add(release);
-            await _context.SaveChangesAsync();
+            var release = await _releaseRepostitory.Add(releaseVm.ToModel());
 
-            return CreatedAtAction("GetRelease", new { id = release.Id }, release);
+            return CreatedAtAction("GetRelease", new { id = release.Id }, ReleaseViewModel.FromModel(release));
         }
 
         // DELETE: api/Releases/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteRelease(int id)
         {
-            var release = await _context.Releases.FindAsync(id);
-            if (release == null)
+            var result = await _releaseRepostitory.Delete(id);
+
+            if (result.IsError(CommonErrors.NotFound))
                 return NotFound();
 
-            _context.Releases.Remove(release);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool ReleaseExists(int id)
-        {
-            return _context.Releases.Any(e => e.Id == id);
         }
     }
 }

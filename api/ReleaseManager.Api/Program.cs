@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ReleaseManager.Api.Repositories;
 using ReleaseManager.Model;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,10 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "ReleaseManager", Version = "v1" });
 });
+
+// DI
+
+builder.Services.AddScoped<IReleaseRepository, ReleaseRepository>();
 
 var app = builder.Build();
 
