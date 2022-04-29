@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "+pdD75MzJM/vem/KfejqBjBCpKYTYkd+GbrK75kOCn+3Fzz9mxTqiQLc8yuiQp1NTg7kOf6fFU1H2ydAUeTi1A==",
+  "success": true,
+  "projectFilePath": "C:\\Projects\\ReleaseManager\\cli\\ReleaseManager.GitManager\\ReleaseManager.GitManager.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\gilian.gonnord\\.nuget\\packages\\system.commandline\\2.0.0-beta3.22114.1\\system.commandline.2.0.0-beta3.22114.1.nupkg.sha512"
+  ],
+  "logs": []
+}

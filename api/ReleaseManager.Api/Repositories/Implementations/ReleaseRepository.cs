@@ -52,7 +52,7 @@ public class ReleaseRepository : IReleaseRepository
 
     public Task<List<Release>> GetAllAsync()
     {
-        return _context.Releases.ToListAsync();
+        return _context.Releases.OrderByDescending(r => r.DateCreated).ToListAsync();
     }
 
     public async Task<Result> Update(int id, Release release)

@@ -1,23 +1,24 @@
-﻿{
+{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:1819",
-      "sslPort": 44379
+      "sslPort": 0
     }
   },
   "profiles": {
     "ReleaseManager.Api": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7135;http://localhost:5088",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\gilian.gonnord\\Downloads\\release-manager-f2b47-firebase-adminsdk-dfj3r-a8e2295584.json"
+      },
+      "applicationUrl": "http://localhost:7135;http://localhost:5088",
+      "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",

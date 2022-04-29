@@ -18,6 +18,7 @@
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
             },
             "env": {
+                "GOOGLE_APPLICATION_CREDENTIALS": "C:/Users/gilian.gonnord/Downloads/release-manager-f2b47-firebase-adminsdk-dfj3r-a8e2295584.json",
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_URLS": "https://localhost:7113",
             },

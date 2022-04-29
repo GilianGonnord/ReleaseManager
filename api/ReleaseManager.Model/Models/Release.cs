@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ReleaseManager.Model.Models;
 
-[Index(nameof(Name), IsUnique = true)]
+[Index(nameof(VersionNumber), IsUnique = true)]
 public class Release
 {
     public int Id { get; set; }
 
     [Required]
-    public string? Name { get; set; }
+    public string? VersionNumber { get; set; }
+
+    public DateTime DateCreated { get; set; }
 }

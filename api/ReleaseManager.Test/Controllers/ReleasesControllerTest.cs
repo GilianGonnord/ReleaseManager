@@ -41,7 +41,7 @@ public class ReleasesControllerTest
     public async Task GetRelease_200()
     {
         // Arrange
-        var release = new Release { Id = 0, Name = "0.0.1" };
+        var release = new Release { Id = 0, VersionNumber = "0.0.1" };
 
         var releaseMockRepo = new Mock<IReleaseRepository>();
         releaseMockRepo.Setup(repo => repo.FindAsync(release.Id)).ReturnsAsync(Result<Release>.Ok(release));
@@ -57,7 +57,7 @@ public class ReleasesControllerTest
         var releaseVm = Assert.IsType<ReleaseViewModel>(objectResult.Value);
 
         Assert.StrictEqual(release.Id, releaseVm.Id);
-        Assert.Equal(release.Name, releaseVm.Name);
+        Assert.Equal(release.VersionNumber, releaseVm.VersionNumber);
         releaseMockRepo.VerifyAll();
     }
 
@@ -65,7 +65,7 @@ public class ReleasesControllerTest
     public async Task GetRelease_404()
     {
         // Arrange
-        var release = new Release { Id = 0, Name = "0.0.1" };
+        var release = new Release { Id = 0, VersionNumber = "0.0.1" };
 
         var releaseMockRepo = new Mock<IReleaseRepository>();
         releaseMockRepo.Setup(repo => repo.FindAsync(release.Id)).ReturnsAsync(Result<Release>.Fail(CommonErrors.NotFound));
@@ -89,7 +89,7 @@ public class ReleasesControllerTest
     public async Task PutRelease_400_BadIds()
     {
         // Arrange
-        var releaseVM = new ReleaseViewModel { Id = 1, Name = "0.0.1" };
+        var releaseVM = new ReleaseViewModel { Id = 1, VersionNumber = "0.0.1" };
 
         var releaseMockRepo = new Mock<IReleaseRepository>();
 
@@ -107,12 +107,12 @@ public class ReleasesControllerTest
     public async Task PutRelease_200_Ok()
     {
         // Arrange
-        var releaseVm = new ReleaseViewModel { Id = 1, Name = "new name" };
+        var releaseVm = new ReleaseViewModel { Id = 1, VersionNumber = "new name" };
         var releaseModel = releaseVm.ToModel();
 
         var releaseMockRepo = new Mock<IReleaseRepository>();
         releaseMockRepo
-            .Setup(repo => repo.Update(releaseVm.Id.Value, It.Is<Release>(r => r.Name == releaseVm.Name)))
+            .Setup(repo => repo.Update(releaseVm.Id.Value, It.Is<Release>(r => r.VersionNumber == releaseVm.VersionNumber)))
             .ReturnsAsync(Result<Release>.Ok(releaseModel));
 
         var controller = new ReleasesController(releaseMockRepo.Object);
@@ -133,12 +133,12 @@ public class ReleasesControllerTest
     public async Task PostRelease_200_Ok()
     {
         // Arrange
-        var releaseVm = new ReleaseViewModel { Name = "name" };
+        var releaseVm = new ReleaseViewModel { VersionNumber = "name" };
 
         var releaseMockRepo = new Mock<IReleaseRepository>();
         releaseMockRepo
-            .Setup(repo => repo.Add(It.Is<Release>(r => r.Name == releaseVm.Name)))
-            .ReturnsAsync(new Release { Id = 1, Name = "name" });
+            .Setup(repo => repo.Add(It.Is<Release>(r => r.VersionNumber == releaseVm.VersionNumber)))
+            .ReturnsAsync(new Release { Id = 1, VersionNumber = "name" });
 
         var controller = new ReleasesController(releaseMockRepo.Object);
 
@@ -151,7 +151,7 @@ public class ReleasesControllerTest
         var gotReleaseVm = Assert.IsType<ReleaseViewModel>(createdAtActionResult.Value);
 
         Assert.NotNull(gotReleaseVm.Id);
-        Assert.Equal(releaseVm.Name, gotReleaseVm.Name);
+        Assert.Equal(releaseVm.VersionNumber, gotReleaseVm.VersionNumber);
 
         releaseMockRepo.VerifyAll();
     }
